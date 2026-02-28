@@ -6,7 +6,6 @@ import { getToken, setToken } from '@/lib/auth';
 import StatusBox from '@/components/StatusBox';
 import Button from '@/components/UI/Button';
 import Input from '@/components/UI/Input';
-import ClassicCard from '@/components/UI/ClassicCard';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -63,19 +62,13 @@ export default function LoginPage() {
     }
 
     return (
-        <main className="p-4 flex flex-col items-center">
-            <ClassicCard title="Iniciar sesion" className="w-full max-w-md text-center">
-                {/* <h1>Login</h1> */}
-                <p className='italic text-amber-600 mb-2'>¡Estás a un solo paso de las mejores historias!</p>
-
-                <form onSubmit={login}>
-                    <label className='block text-left mb-1 mt-1 font-medium' for='user'>Usuario</label>
-                    <Input className='mb-2' id='user' value={user} placeholder="Nombre de usuario" onChange={e => setUser(e.target.value)} />
-                    <label className='block text-left mb-1 mt-1 font-medium' for='password'>Contraseña</label>
-                    <Input className='mb-2' id='password' value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                    <Button type='submit' alt="Entrar">{ loading ? 'Entrando...' : 'Entrar' }</Button>
-                </form>
-            </ClassicCard>
+        <main className="p-4">
+        <h1>Login</h1>
+        <form onSubmit={login}>
+            <Input value={user} placeholder="Nombre de usuario" onChange={e => setUser(e.target.value)} />
+            <Input value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
+            <Button type='submit' alt="Entrar">{ loading ? 'Entrando...' : 'Entrar' }</Button>
+        </form>
         
         <div className='mt-3'>
             <StatusBox loading={loading} error={error} success={success} />

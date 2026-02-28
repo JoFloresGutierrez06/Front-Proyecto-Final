@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { clearToken } from '@/lib/auth';
 import Button from '@/components/UI/Button';
 import Input from '@/components/UI/Input';
+import ClassicCard from '@/components/UI/ClassicCard';
+import Link from 'next/link';
 
 export default function NuevaObraPage() {
     const router = useRouter();
@@ -21,10 +23,10 @@ export default function NuevaObraPage() {
     const [success, setSuccess] = useState('');
 
     function validar() {
-        if (!titulo.trim()) return 'Nombre requerido';
+        if (!titulo.trim()) return 'Titulo requerido';
         if (!autor.trim()) return 'Autor requerido';
         if (!descripcion.trim()) return 'Descripción requerida';
-        if (!portada.trim()) return 'Portada requerida';
+        // if (!portada.trim()) return 'Portada requerida';
         return '';
     }
 
@@ -42,10 +44,24 @@ export default function NuevaObraPage() {
         setLoading(true);
         try {
 
+            const data = {
+                titulo: titulo.trim(),
+                autor: autor.trim(),
+                descripcion: descripcion.trim(),
+            };
+
+            if (portada.trim()) {
+                data.portada = portada.trim();
+            }
+
             await apiFetch('/obras', {
                 method: 'POST',
-                body: JSON.stringify({ titulo: titulo.trim(), autor: autor.trim(), descripcion: descripcion.trim(), portada: portada.trim() })
+                body: JSON.stringify(data)
             });
+           /*  await apiFetch('/obras', {
+                method: 'POST',
+                body: JSON.stringify({ titulo: titulo.trim(), autor: autor.trim(), descripcion: descripcion.trim(), portada: portada.trim() })
+            }); */
 
             setSuccess('Obra creada correctamente');
             setTitulo('');
@@ -70,40 +86,54 @@ export default function NuevaObraPage() {
 
     return (
         <main className='flex flex-col'>
-            <h1>Nueva Obra</h1>
+            {/* <h1>Nueva Obra</h1> */}
+            <ClassicCard title="Crear nueva obra" className="w-full max-w-md text-center">
 
-            <form onSubmit={crear}>
-                <div>
-                    <Input
-                        placeholder='Titulo'
-                        value={titulo}
-                        onChange={(e) => setTitulo(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <Input
-                        placeholder='Autor'
-                        value={autor}
-                        onChange={(e) => setAutor(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <Input
-                        placeholder='Descripción'
-                        value={descripcion}
-                        onChange={(e) => setDescripcion(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <Input
-                        placeholder='Portada'
-                        value={portada}
-                        onChange={(e) => setPortada(e.target.value)}
-                    />
-                </div>
-                <Button type="submit" disabled={loading}>{loading ? 'Creando...' : 'Crear'}</Button>
-            </form>
-            <StatusBox loading={loading} error={error} success={success} />
+                <form onSubmit={crear}>
+                    <div>
+                        <label className='block text-left mb-1 mt-1 font-medium' for='titulo'>Título</label>
+                        <Input
+                            placeholder='Título'
+                            id='titulo'
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-left mb-1 mt-1 font-medium' for='autor'>Autor</label>
+                        <Input
+                            placeholder='Autor'
+                            id='autor'
+                            value={autor}
+                            onChange={(e) => setAutor(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-left mb-1 mt-1 font-medium' for='descripcion'>Descripción</label>
+                        <Input
+                            placeholder='Descripción'
+                            id='descripcion'
+                            value={descripcion}
+                            onChange={(e) => setDescripcion(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-left mb-1 mt-1 font-medium' for='portada'>Portada (opcional)</label>
+                        <Input
+                            placeholder='Portada'
+                            id='portada'
+                            value={portada}
+                            onChange={(e) => setPortada(e.target.value)}
+                        />
+                    </div>
+                    <Link href="/obras" className='block text-amber-500 underline mt-2'>Regresar</Link>
+                    <Button className='mt-3' type="submit" disabled={loading}>{loading ? 'Creando...' : 'Crear'}</Button>
+                </form>
+            </ClassicCard>
+
+            <div className='mt-3'>
+                <StatusBox loading={loading} error={error} success={success} />
+            </div>
         </main>
     );
 }
