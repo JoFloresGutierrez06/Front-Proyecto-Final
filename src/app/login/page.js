@@ -69,9 +69,9 @@ export default function LoginPage() {
                 <p className='italic text-amber-600 mb-2'>¡Estás a un solo paso de las mejores historias!</p>
 
                 <form onSubmit={login}>
-                    <label className='block text-left mb-1 mt-1 font-medium' for='user'>Usuario</label>
+                    <label className='block text-left mb-1 mt-1 font-medium' htmlFor='user'>Usuario</label>
                     <Input className='mb-2' id='user' value={user} placeholder="Nombre de usuario" onChange={e => setUser(e.target.value)} />
-                    <label className='block text-left mb-1 mt-1 font-medium' for='password'>Contraseña</label>
+                    <label className='block text-left mb-1 mt-1 font-medium' htmlFor='password'>Contraseña</label>
                     <Input className='mb-2' id='password' value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
                     <Button type='submit' alt="Entrar">{ loading ? 'Entrando...' : 'Entrar' }</Button>
                 </form>
