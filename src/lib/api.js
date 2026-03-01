@@ -5,7 +5,7 @@ export async function apiFetch(path, options = {}) {
     if (!API) throw new Error('Falta NEXT_PUBLIC_API_URL');
 
     const token = getToken();
-
+    // console.log("Token en apiFetch =", token); // Verificar que el token se esté obteniendo correctamente
     const headers = { ...(options.headers) || {} };
 
     const isFormData = options.body instanceof FormData;

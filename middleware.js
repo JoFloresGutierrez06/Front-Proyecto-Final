@@ -11,6 +11,7 @@ export function middleware(req) {
 
   // Si ya está logueado, no permitir volver a /login
   if (url === "/login" && token) {
+    console.log("Redirigiendo desde middleware porque ya hay token");
     return NextResponse.redirect(new URL("/", req.url));
   }
 

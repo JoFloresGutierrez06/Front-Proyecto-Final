@@ -53,7 +53,7 @@ export default function LoginPage() {
             }
             setToken(data.token);
             setSuccess('Login Correcto');
-            router.replace('/obras');
+            router.replace('/obras'); // cuando el loin es correcto redirige a obras
             
         } catch (err) {
             setError('Error de red / API no disponible');

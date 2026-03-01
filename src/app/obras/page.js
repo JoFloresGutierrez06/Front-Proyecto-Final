@@ -1,33 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-export default function FraseAleatoria() {
-  const [frase, setFrase] = useState(null);
-
-  useEffect(() => {
-    async function fetchFrase() {
-      try {
-        const res = await fetch("https://api.adviceslip.com/advice");
-        const data = await res.json();
-        setFrase(data.slip.advice);
-      } catch (e) {
-        setFrase("No se pudo cargar la frase.");
-      }
-    }
-
-    fetchFrase();
-  }, []);
-
-  return (
-    <div className="w-full bg-amber-100 border border-amber-300 text-amber-900 p-4 rounded mb-6 shadow">
-      <p className="text-center italic font-medium">
-        {frase || "Cargando frase..."}
-      </p>
-    </div>
-  );
-}
-
 import { getObras } from '../utils/api/getObras';
 import Link from 'next/link';
 import ObraCard from '@/components/UI/ObraCard';

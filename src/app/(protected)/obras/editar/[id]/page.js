@@ -9,6 +9,7 @@ async function getObraPorID(id) {
 }
 
 export default async function EditarObraPage({ params }) {
+
   const { id } = await params;
   const obra = await getObraPorID(id);
 

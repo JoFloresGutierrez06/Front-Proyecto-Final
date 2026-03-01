@@ -91,7 +91,7 @@ export default function NuevaObraPage() {
 
                 <form onSubmit={crear}>
                     <div>
-                        <label className='block text-left mb-1 mt-1 font-medium' for='titulo'>Título</label>
+                        <label className='block text-left mb-1 mt-1 font-medium' htmlFor='titulo'>Título</label>
                         <Input
                             placeholder='Título'
                             id='titulo'
@@ -100,7 +100,7 @@ export default function NuevaObraPage() {
                         />
                     </div>
                     <div>
-                        <label className='block text-left mb-1 mt-1 font-medium' for='autor'>Autor</label>
+                        <label className='block text-left mb-1 mt-1 font-medium' htmlFor='autor'>Autor</label>
                         <Input
                             placeholder='Autor'
                             id='autor'
@@ -109,7 +109,7 @@ export default function NuevaObraPage() {
                         />
                     </div>
                     <div>
-                        <label className='block text-left mb-1 mt-1 font-medium' for='descripcion'>Descripción</label>
+                        <label className='block text-left mb-1 mt-1 font-medium' htmlFor='descripcion'>Descripción</label>
                         <Input
                             placeholder='Descripción'
                             id='descripcion'
@@ -118,7 +118,7 @@ export default function NuevaObraPage() {
                         />
                     </div>
                     <div>
-                        <label className='block text-left mb-1 mt-1 font-medium' for='portada'>Portada (opcional)</label>
+                        <label className='block text-left mb-1 mt-1 font-medium' htmlFor='portada'>Portada (opcional)</label>
                         <Input
                             placeholder='Portada'
                             id='portada'

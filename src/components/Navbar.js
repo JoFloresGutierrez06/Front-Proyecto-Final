@@ -39,7 +39,7 @@ export default function Navbar() {
 
       try {
         const decoded = jwtDecode(storedToken);
-        console.log(decoded);
+        // console.log(decoded);
         setRole(decoded.role || decoded.rol); // asegurar que el back mande rol en el token
       } catch (err) {
         console.error("Token inválido");

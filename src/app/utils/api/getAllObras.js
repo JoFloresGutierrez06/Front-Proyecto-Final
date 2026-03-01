@@ -4,6 +4,7 @@ export async function getAllObras() {
   return await apiFetch('/obras/all');
 }
 
+// Se descartó la opción de usar fetch directo porque no cumprueba el token/permiso
 /* import { API } from '@/config';
 
 export async function getAllObras() {
@@ -13,6 +14,5 @@ export async function getAllObras() {
     if (!res.ok) {
         throw new Error('Error al cargar obras');
     }
-
     return res.json();
 } */
