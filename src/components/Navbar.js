@@ -53,7 +53,7 @@ export default function Navbar() {
     clearToken();
     setToken(null);
     setRole(null);
-    router.replace("/login");
+    router.replace("/");
     router.refresh();
   };
 

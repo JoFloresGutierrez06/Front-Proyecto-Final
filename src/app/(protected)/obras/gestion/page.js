@@ -10,28 +10,32 @@ import StatusBox from '@/components/StatusBox';
 import { jwtDecode } from "jwt-decode";
 
 // Se tendrá que seguir el ejemplo que hizo el profe en clase de que le puso una función asíncrona dentro de una normal para usarla en el cliente
-// crucemos los dedos para que funcione
+
 export default function GestionObrasPage() {
     const [obras, setObras] = useState([]);
     const [cargando, setCargando] = useState(true);
+    const [token, setToken] = useState(null);
+    const [rol, setRol] = useState(null);
     const router = useRouter();
+
 
     useEffect(() => {
         // Definir una función asíncrona interna para manejar la petición
         const cargarDatosYVerificarAcceso = async () => {
             try {
                 // 1. Verificación de Seguridad Manual (Paso adicional para roles)
+ 
                 const token = localStorage.getItem('token');
                 const decoded = jwtDecode(token);
-                // console.log("Decoded ",decoded);
-                // console.log("Decoded rol: ",decoded.rol);
+                console.log("Decoded ",decoded);
+                console.log("Decoded rol: ",decoded.rol);
 
                 // Filtro extra por si acaso: Si no hay token o el rol no es admin/autor, redirige al login
                 if (!token || (decoded.rol !== 'admin' && decoded.rol !== 'autor')) {
                     router.push('/');
                     return;
                 }
-
+               
                 // 2. Petición de datos
                 const data = await getAllObras();
                 setObras(data);

@@ -1,6 +1,10 @@
+// Página de obras publicadas
+// API a utilizar https://api.adviceslip.com/advice
+
 import { getObras } from '../utils/api/getObras';
 import Link from 'next/link';
 import ObraCard from '@/components/UI/ObraCard';
+import FraseAleatoria from '@/components/FraseAleatoria'; // api de frases
 
 export default async function ObrasPage() {
 
@@ -8,6 +12,10 @@ export default async function ObrasPage() {
 
   return (
     <main className="p-4">
+
+      <p className='font-bold m-2'>Comentarios recientes de los lectores: </p>
+      <FraseAleatoria />
+      <FraseAleatoria />
 
       <h1 className="text-2xl font-bold">Obras</h1>
 
