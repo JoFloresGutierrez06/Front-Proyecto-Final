@@ -1,4 +1,13 @@
-'use client';
+export default function RegistroPage() {
+    return (
+        <main className="p-4">
+            <h1 className="text-2xl font-bold">¡Proximamente!</h1>
+            <p> Por el momento no está disponible la función de registro</p>
+        </main>
+    )
+}
+
+/* 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { API } from '@/config';
@@ -75,4 +84,4 @@ export default function LoginPage() {
         </div>
         </main>
     );
-}
+} */
