@@ -1,4 +1,10 @@
-import { API } from '@/config';
+import { apiFetch } from '@/lib/api';
+
+export async function getAllObras() {
+  return await apiFetch('/obras/all');
+}
+
+/* import { API } from '@/config';
 
 export async function getAllObras() {
     
@@ -9,4 +15,4 @@ export async function getAllObras() {
     }
 
     return res.json();
-}
+} */
