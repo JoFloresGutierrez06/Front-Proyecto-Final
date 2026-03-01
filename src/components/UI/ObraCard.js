@@ -16,15 +16,15 @@ export default function ObraCard({ obra }) {
       <div className="flex-1">
         <h3 className="font-semibold text-lg">{obra.titulo}</h3>
         <p className="text-sm text-gray-500 mb-2">{obra.autor}</p>
+        {obra.publicado && <p className="text-xs text-green-400 font-medium">{obra.publicado ? "Publicado" : "No publicado"}</p>}
 
         <Link
           className="text-amber-600 underline hover:text-amber-700"
           href={`/obras/${obra.id}`}
-        >
+        > 
           Ver detalles
         </Link>
       </div>
-
     </li>
   );
 }

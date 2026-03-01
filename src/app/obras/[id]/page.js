@@ -1,4 +1,27 @@
-import { API } from '@/config';
+import { API } from "@/config";
+import ObraDetalle from "./ObraDetalle";
+
+async function getObraPorID(id) {
+  const res = await fetch(`${API}/obras/${id}`, { cache: "no-store" });
+
+  if (!res.ok) return null;
+  return res.json();
+}
+
+export default async function ObraPage({ params }) {
+  // const obra = await getObraPorID(params.id);
+  const { id } = await params;
+  const obra = await getObraPorID(id);
+  // console.log("Obra:", obra);
+
+  return (
+    <main className="p-4 flex justify-center">
+      <ObraDetalle obra={obra} />
+    </main>
+  );
+}
+
+/* import { API } from '@/config';
 import Link from 'next/link';
 
 async function getObraPorID(id) {
@@ -8,6 +31,23 @@ async function getObraPorID(id) {
     throw new Error('Error al obtener obra');
   }
   return res.json();
+}
+
+async function handleDelete() {
+  if (!confirm("¿Seguro que deseas eliminar esta obra?")) return;
+
+  const res = await fetch(`http://localhost:3001/obras/${obra.id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.ok) {
+    router.replace("/obras/gestion");
+  } else {
+    alert("Error al eliminar");
+  }
 }
 
 export default async function ObraPage({ params }) {
@@ -26,6 +66,23 @@ export default async function ObraPage({ params }) {
 
   return (
     <main className="p-4 flex justify-center">
+      {token && (role === "autor" || role === "admin") && (
+        <div className="flex gap-2 mt-4">
+          <Link
+            href={`/obras/editar/${obra.id}`}
+            className="px-3 py-2 bg-blue-600 text-white rounded-md"
+          >
+            Editar
+          </Link>
+
+          <button
+            onClick={handleDelete}
+            className="px-3 py-2 bg-red-600 text-white rounded-md"
+          >
+            Eliminar
+          </button>
+        </div>
+      )}
       <div className="w-full max-w-2xl bg-white shadow rounded p-6">
 
         <Link href="/obras" className="text-amber-600 underline hover:text-amber-700 block mb-4">

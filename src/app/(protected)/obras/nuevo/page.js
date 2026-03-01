@@ -126,7 +126,7 @@ export default function NuevaObraPage() {
                             onChange={(e) => setPortada(e.target.value)}
                         />
                     </div>
-                    <Link href="/obras" className='block text-amber-500 underline mt-2'>Regresar</Link>
+                    <Link href="/obras/gestion" className='block text-amber-500 underline mt-2'>Regresar</Link>
                     <Button className='mt-3' type="submit" disabled={loading}>{loading ? 'Creando...' : 'Crear'}</Button>
                 </form>
             </ClassicCard>

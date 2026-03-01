@@ -22,7 +22,7 @@ export default function LoginPage() {
         // Si ya hay token, redirige a obras
         const token = getToken();
         if (token) {
-        router.replace('/obras/nuevo');
+        router.replace('/obras/gestion');
         }
         return;
     }, [router]);
