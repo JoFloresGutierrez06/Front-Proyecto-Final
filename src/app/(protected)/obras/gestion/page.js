@@ -3,28 +3,35 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAllObras } from '@/app/utils/api/getAllObras'; //función que usa apiFetch
+import { jwtDecode } from "jwt-decode";
 import Link from 'next/link';
 import ObraCard from '@/components/UI/ObraCard';
 import Button from '@/components/UI/Button';
 import StatusBox from '@/components/StatusBox';
-import { jwtDecode } from "jwt-decode";
 
 // Se tendrá que seguir el ejemplo que hizo el profe en clase de que le puso una función asíncrona dentro de una normal para usarla en el cliente
 
 export default function GestionObrasPage() {
     const [obras, setObras] = useState([]);
     const [cargando, setCargando] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
     const [token, setToken] = useState(null);
     const [rol, setRol] = useState(null);
     const router = useRouter();
 
+    // Primer efecto: Solo para marcar que ya estamos en el navegador
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
+        if (!isMounted) return; // No hace nada si no está en el navegador
+
         // Definir una función asíncrona interna para manejar la petición
         const cargarDatosYVerificarAcceso = async () => {
             try {
+
                 // 1. Verificación de Seguridad Manual (Paso adicional para roles)
- 
                 const token = localStorage.getItem('token');
                 const decoded = jwtDecode(token);
                 console.log("Decoded ",decoded);
@@ -49,7 +56,10 @@ export default function GestionObrasPage() {
         };
 
         cargarDatosYVerificarAcceso();
-    }, [router]);
+    }, [isMounted, router]);
+
+    // Si no está montado, no renderizamos nada (evita errores de localStorage)
+    if (!isMounted) return null;
 
     if (cargando) {
         return (

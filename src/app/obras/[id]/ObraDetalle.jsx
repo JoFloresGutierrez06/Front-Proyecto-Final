@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
+import StatusBox from "@/components/StatusBox";
 
 export default function ObraDetalle({ obra }) {
   const router = useRouter();
@@ -32,7 +33,10 @@ export default function ObraDetalle({ obra }) {
     });
 
     if (res.ok) router.replace("/obras/gestion");
-    else alert("Error al eliminar");
+    else {
+      alert("Error al eliminar");
+      
+    }
   }
 
   if (!obra) return <p>Obra no encontrada</p>;
