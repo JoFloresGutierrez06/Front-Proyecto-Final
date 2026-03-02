@@ -26,6 +26,9 @@ export default function GestionObrasPage() {
             const token = localStorage.getItem('token');
             const userStr = localStorage.getItem('user');
 
+            console.log("Token en gestión de obras =", token);
+            console.log("UserStr en gestión de obras =", userStr);
+
             if (!token || !userStr) {
                 router.replace('/login');
                 return;
@@ -42,6 +45,7 @@ export default function GestionObrasPage() {
                 const data = await getAllObras();
                 setObras(data || []);
             } catch (err) {
+                console.log("error en gestión de obras:", err);
                 router.replace('/login');
             }
         };
