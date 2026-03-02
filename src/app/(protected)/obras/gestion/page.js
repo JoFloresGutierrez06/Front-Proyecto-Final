@@ -1,4 +1,85 @@
-"use client"; // para acceder al local storage
+"use client";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { jwtDecode } from 'jwt-decode';
+import { getAllObras } from '@/app/utils/api/getAllObras';
+import Link from 'next/link';
+import ObraCard from '@/components/UI/ObraCard';
+import Button from '@/components/UI/Button';
+import StatusBox from '@/components/StatusBox';
+
+export default function GestionObrasPage() {
+    const [isMounted, setIsMounted] = useState(false); // <--- Clave para Producción
+    const [obras, setObras] = useState([]);
+    const router = useRouter();
+
+    // EFECTO 1: Asegura que estamos en el cliente
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    // EFECTO 2: Lógica de Seguridad y Carga
+    useEffect(() => {
+        if (!isMounted) return; // No hace nada en el servidor
+
+        const validarYEntrar = async () => {
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+
+            if (!token || !userStr) {
+                router.replace('/login');
+                return;
+            }
+
+            try {
+                const decoded = jwtDecode(userStr);
+                // Usamos 'rol' porque es lo que confirmó tu consola
+                if (decoded.rol !== 'admin' && decoded.rol !== 'autor') {
+                    router.replace('/');
+                    return;
+                }
+
+                const data = await getAllObras();
+                setObras(data || []);
+            } catch (err) {
+                router.replace('/login');
+            }
+        };
+
+        validarYEntrar();
+    }, [isMounted, router]);
+
+    // Evita el renderizado del servidor para prevenir conflictos de hidratación
+    if (!isMounted) return null;
+
+    return (
+        <main className="p-4">
+            <div className="grid grid-cols-2 gap-10 md:flex md:justify-between md:items-center mb-4">
+                <div>
+                    <h1 className="text-2xl font-bold">Gestión de Obras</h1>
+                    <p className="mb-2 text-gray-600">Total de obras: {obras.length}</p>
+                </div>
+                <Link href="/obras/nuevo">
+                    <Button className="ml-2">Crear Obra</Button>
+                </Link>
+            </div>
+
+            {obras.length === 0 ? (
+                <div className="text-center py-10">
+                    <p className="text-gray-500">No hay obras registradas para gestionar.</p>
+                </div>
+            ) : (
+                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {obras.map((obra) => (
+                        <ObraCard key={obra.id} obra={obra} />
+                    ))}
+                </ul>
+            )}
+        </main>
+    );
+}
+
+/* "use client"; // para acceder al local storage
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -94,7 +175,7 @@ export default function GestionObrasPage() {
             )}
         </main>
     );
-}
+} */
 /* import { getAllObras } from '../../../utils/api/getAllObras';
 import Link from 'next/link';
 import ObraCard from '../../../../components/UI/ObraCard';
