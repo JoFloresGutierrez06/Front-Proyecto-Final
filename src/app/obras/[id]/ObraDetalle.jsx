@@ -7,11 +7,14 @@ import { getToken } from "@/lib/auth";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import StatusBox from "@/components/StatusBox";
+import { togglePublicar } from "@/app/utils/api/togglePublicar";
 
 export default function ObraDetalle({ obra }) {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [role, setRole] = useState(null);
+  const [publicada, setPublicada] = useState(obra.publicado);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const t = getToken();
@@ -23,6 +26,19 @@ export default function ObraDetalle({ obra }) {
       } catch {}
     }
   }, []);
+  
+  async function handleToggle() { // switch de publicar
+    try {
+      setLoading(true);
+      await togglePublicar(obra.id, publicada);
+      setPublicada(!publicada);
+    } catch (err) {
+      console.error(err);
+      alert("Error al cambiar estado de publicación");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function handleDelete() {
     if (!confirm("¿Seguro que deseas eliminar esta obra?")) return;
@@ -67,6 +83,20 @@ export default function ObraDetalle({ obra }) {
             className="px-3 py-2 bg-red-600 text-white rounded-md"
           >
             Eliminar
+          </button>
+
+          <button
+            onClick={handleToggle}
+            disabled={loading}
+            className={`px-4 py-2 rounded text-white ${
+              publicada ? "bg-gray-500" : "bg-green-600"
+            }`}
+          >
+            {loading
+              ? "Guardando..."
+              : publicada
+              ? "Despublicar"
+              : "Publicar"}
           </button>
         </div>
       )}

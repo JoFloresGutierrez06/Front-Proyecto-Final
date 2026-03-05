@@ -72,6 +72,8 @@ export default function Navbar() {
             <NavLink href="/obras/gestion">Gestionar Obras</NavLink>
           )}
 
+          <NavLink href="/contacto">Contacto</NavLink>   
+
           {token ? (
             <>
               <button onClick={handleLogout} className="px-3 py-2 rounded-md text-sm font-bold bg-slate-800 text-white hover:bg-red-900 hover:text-white transition-all">
@@ -81,6 +83,7 @@ export default function Navbar() {
           ) : (
             <NavLink href="/login">Login</NavLink>
           )}
+
         </nav>
       </div>
     </header>

@@ -10,6 +10,7 @@ async function getObraPorID(id) {
 
 export default async function ObraPage({ params }) {
   // const obra = await getObraPorID(params.id);
+  
   const { id } = await params;
   const obra = await getObraPorID(id);
   // console.log("Obra:", obra);
