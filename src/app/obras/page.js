@@ -9,6 +9,7 @@ import FraseAleatoria from '@/components/FraseAleatoria'; // api de frases
 export default async function ObrasPage() {
 
   const obras = await getObras();
+  console.log("refresh obras", obras)
 
   return (
     <main className="p-4">
