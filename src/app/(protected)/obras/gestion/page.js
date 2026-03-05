@@ -3,22 +3,24 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 import { getAllObras } from '@/app/utils/api/getAllObras';
+// Componentes UI
 import Link from 'next/link';
 import ObraCard from '@/components/UI/ObraCard';
 import Button from '@/components/UI/Button';
-import StatusBox from '@/components/StatusBox';
 
 export default function GestionObrasPage() {
     const [isMounted, setIsMounted] = useState(false); // <--- Clave para Producción
     const [obras, setObras] = useState([]);
     const router = useRouter();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    // EFECTO 1: Asegura que estamos en el cliente
+    // Use effect 1: Asegura que estamos en el cliente
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
-    // EFECTO 2: Lógica de Seguridad y Carga
+    // Use Effect 2: Lógica de Seguridad y Carga
     useEffect(() => {
         if (!isMounted) return; // No hace nada en el servidor
 
@@ -36,14 +38,20 @@ export default function GestionObrasPage() {
 
             try {
                 const decoded = jwtDecode(userStr);
-                // Usamos 'rol' porque es lo que confirmó tu consola
                 if (decoded.rol !== 'admin' && decoded.rol !== 'autor') {
                     router.replace('/');
                     return;
                 }
 
-                const data = await getAllObras();
-                setObras(data || []);
+                // Get obras con paginación
+                const data = await getAllObras(page);
+                setObras(data?.data || []);
+                setTotalPages(data.totalPages);
+                return data?.data || [];
+
+                // Get obras sin paginación
+                /* const data = await getAllObras();
+                setObras(data || []); */
             } catch (err) {
                 console.log("error en gestión de obras:", err);
                 router.replace('/login');
@@ -51,7 +59,7 @@ export default function GestionObrasPage() {
         };
 
         validarYEntrar();
-    }, [isMounted, router]);
+    }, [isMounted, router, page]); // Se recarga cada vez que se monta el componente o cambia la página
 
     // Evita el renderizado del servidor para prevenir conflictos de hidratación
     if (!isMounted) return null;
@@ -68,6 +76,7 @@ export default function GestionObrasPage() {
                 </Link>
             </div>
 
+            {/* Mostrar obras */}
             {obras.length === 0 ? (
                 <div className="text-center py-10">
                     <p className="text-gray-500">No hay obras registradas para gestionar.</p>
@@ -79,6 +88,24 @@ export default function GestionObrasPage() {
                     ))}
                 </ul>
             )}
+
+            {/* Botones de paginación */}
+            <div className="flex justify-center gap-2 mt-4">
+                <button onClick={() => setPage(p => Math.max(p - 1, 1))}
+                    disabled={page === 1}
+                    className="px-3 py-1 bg-gray-300 rounded hover:scale-105">
+                    Anterior
+                </button>
+
+                <span className="px-2 py-1">{page} / {totalPages}</span>
+
+                <button onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+                    disabled={page === totalPages}
+                    className="px-3 py-1 bg-gray-300 rounded hover:scale-105">
+                    Siguiente
+                </button>
+            </div>
+
         </main>
     );
 }
